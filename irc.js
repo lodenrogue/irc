@@ -3,6 +3,7 @@ const EventEmitter = require('events').EventEmitter;
 const Timestamp = require('./util/timestamp');
 
 const MOTDHandler = require('./handler/motd-handler');
+const ConnectionHandler = require('./handler/connection-handler');
 const UIRenderer = require('./ui/ui-renderer');
 
 const HOST = 'irc.freenode.net';
@@ -19,12 +20,12 @@ class IRC {
     }
 
     start() {
+        new ConnectionHandler(this.client, this.eventEmitter);
         new MOTDHandler(this.client, this.eventEmitter);
         this.renderer.start(this.eventEmitter);
 
         this.eventEmitter.emit('connecting', new Timestamp().toString(), HOST);
         this.client.connect();
-        this.eventEmitter.emit('connected', new Timestamp().toString(), HOST);
     }
 
     createClient() {

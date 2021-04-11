@@ -44,7 +44,7 @@ class MainChatPanel {
 
         this.eventEmitter.addListener('connected', (timestamp, host) => {
             this.displayConnected(timestamp, host);
-        })
+        });
     }
 
     registerMotd() {
@@ -56,7 +56,7 @@ class MainChatPanel {
     displayConnecting(timestamp, host) {
         let color = this.getSystemInfoColor();
         let prefix = `${color}*{/}`;
-        let message = `Connecting to ${color}${host}{/}`;
+        let message = `Looking up ${color}${host}{/}`;
         this.displayLine(timestamp, prefix, message);
     }
 
@@ -65,7 +65,7 @@ class MainChatPanel {
         let sysInfoPrefix = this.getSystemInfoPrefix();
         let prefix = `${color}${sysInfoPrefix}{/}`;
         let message = `Connected to ${color}${host}{/}`;
-        
+
         this.displayLine(timestamp, prefix, message);
     }
 

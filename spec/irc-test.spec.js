@@ -14,7 +14,21 @@ describe('IRC', function() {
         app = new IRC(client, eventEmitter, renderer);
     });
 
-    it('should prepend date to motd messages', function() {
+    it('should publish connected messages', () => {
+        let testServer = 'name.host.com';
+        spyOn(eventEmitter, 'emit');
+
+        app.start();
+        client.emit('registered', { server: testServer });
+
+        expect(eventEmitter.emit).toHaveBeenCalledWith(
+            'connected',
+            jasmine.any(String),
+            testServer
+        );
+    });
+
+    it('should publish motd messages', () => {
         let testMotd = 'TEST MOTD';
 
         eventEmitter.addListener('motd', (timestamp, motd) => {
