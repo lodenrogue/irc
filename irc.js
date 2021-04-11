@@ -36,7 +36,6 @@ class IRC {
             autoConnect: false
         });
     }
-
 }
 
 module.exports = IRC;
