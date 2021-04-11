@@ -4,12 +4,14 @@ class MainChatPanel {
 
     constructor(screen, eventEmitter) {
         this.box = this.createBox();
-        screen.append(this.box);
-        screen.render();
+        this.eventEmitter = eventEmitter;
+        this.screen = screen;
 
-        eventEmitter.addListener('motd', (timestamp, motd) => {
-            this.displayMotd(timestamp, motd, this.box, screen);
-        });
+        this.screen.append(this.box);
+        this.screen.render();
+
+        this.registerConnection();
+        this.registerMotd();
     }
 
     createBox() {
@@ -18,7 +20,6 @@ class MainChatPanel {
             left: 'center',
             height: '100%',
             width: '100%',
-            content: 'Initial content',
             tags: true,
             border: {
                 type: 'line'
@@ -36,22 +37,61 @@ class MainChatPanel {
         });
     }
 
-    displayMotd(timestamp, motd, box, screen) {
+    registerConnection() {
+        this.eventEmitter.addListener('connecting', (timestamp, host) => {
+            this.displayConnecting(timestamp, host);
+        });
+
+        this.eventEmitter.addListener('connected', (timestamp, host) => {
+            this.displayConnected(timestamp, host);
+        })
+    }
+
+    registerMotd() {
+        this.eventEmitter.addListener('motd', (timestamp, motd) => {
+            this.displayMotd(timestamp, motd);
+        });
+    }
+
+    displayConnecting(timestamp, host) {
+        let color = this.getSystemInfoColor();
+        let prefix = `${color}*{/}`;
+        let message = `Connecting to ${color}${host}{/}`;
+        this.displayLine(timestamp, prefix, message);
+    }
+
+    displayConnected(timestamp, host) {
+        let color = this.getSystemInfoColor();
+        let sysInfoPrefix = this.getSystemInfoPrefix();
+        let prefix = `${color}${sysInfoPrefix}{/}`;
+        let message = `Connected to ${color}${host}{/}`;
+        
+        this.displayLine(timestamp, prefix, message);
+    }
+
+    displayMotd(timestamp, motd) {
+        let color = this.getSystemInfoColor();
+        let sysInfoPrefix = this.getSystemInfoPrefix();
+        let prefix = `${color}${sysInfoPrefix}{/}`;
+
         motd.split('\n')
-            .map(line => this.formatLine(timestamp, line))
-            .forEach(line => this.displayLine(line, box, screen));
+            .map(line => `${color}${line}{/}`)
+            .forEach(line => this.displayLine(timestamp, prefix, line));
     }
 
-    formatLine(timestamp, line) {
-        let color = '{#B48EAD-fg}';
-        let endColor = '{/}';
-        return `[${timestamp}]\t\t${color}*${endColor}|${color}${line}${endColor}`;
+    displayLine(timestamp, prefix = ' ', message) {
+        let line = `[${timestamp}]\t\t${prefix}|${message}`;
+        this.box.pushLine(line);
+        this.box.setScrollPerc(100);
+        this.screen.render();
     }
 
-    displayLine(line, box, screen) {
-        box.pushLine(line);
-        box.setScrollPerc(100);
-        screen.render();
+    getSystemInfoColor() {
+        return '{#B48EAD-fg}';
+    }
+
+    getSystemInfoPrefix() {
+        return '*';
     }
 }
 

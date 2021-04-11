@@ -7,7 +7,7 @@ describe('IRC', function() {
     let eventEmitter;
 
     beforeEach(function() {
-        client = new EventEmitter();
+        client = createClient();
         eventEmitter = new EventEmitter();
 
         let renderer = createMockRenderer();
@@ -20,7 +20,9 @@ describe('IRC', function() {
         eventEmitter.addListener('motd', (timestamp, motd) => {
             let date = new Date();
             let hour = date.getHours();
-            let min = date.getMinutes();
+            let min = date.getMinutes().toLocaleString('en-US', {
+                minimumIntegerDigits: 2
+            });
 
             expect(timestamp.startsWith(`${hour}:${min}`)).toBe(true);
             expect(motd).toEqual(testMotd);
@@ -36,6 +38,12 @@ describe('IRC', function() {
             jasmine.any(String),
             jasmine.any(String));
     });
+
+    function createClient() {
+        let client = new EventEmitter();
+        client.connect = function() {};
+        return client;
+    }
 
     function createMockRenderer() {
         return {

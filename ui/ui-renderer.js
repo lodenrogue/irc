@@ -4,7 +4,7 @@ const MainChatPanel = require('./main-chat-panel');
 class UIRenderer {
 
     constructor() {
-        this.screen = this.createScreen()
+        this.screen = this.createScreen();
     }
 
     start(eventEmitter) {
