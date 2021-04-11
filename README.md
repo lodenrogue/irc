@@ -11,3 +11,5 @@ node app.js
 ```sh
 npm test
 ```
+
+MIT License
