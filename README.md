@@ -5,3 +5,9 @@ Modern, sleek, terminal IRC client
 ```sh
 node app.js
 ```
+
+### Run tests
+
+```sh
+npm test
+```
