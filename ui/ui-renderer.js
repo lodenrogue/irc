@@ -2,13 +2,13 @@ const blessed = require('blessed');
 const MainChatPanel = require('./main-chat-panel');
 
 class UIRenderer {
-	
-	constructor() {
-		this.screen = this.createScreen()
-	}
 
-	start(eventEmitter) {
-		new MainChatPanel(this.screen, eventEmitter);
+    constructor() {
+        this.screen = this.createScreen()
+    }
+
+    start(eventEmitter) {
+        new MainChatPanel(this.screen, eventEmitter);
     }
 
     createScreen() {
@@ -19,10 +19,10 @@ class UIRenderer {
         screen.key(['escape', 'q', 'C-c'], function(ch, key) {
             return process.exit(0);
         });
-        
+
         screen.title = 'IRC Client';
         return screen;
-	}
+    }
 }
 
 module.exports = UIRenderer;

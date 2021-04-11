@@ -1,5 +1,3 @@
-
-
 // box.focus();
 // screen.render();
 
@@ -12,7 +10,7 @@
 
 // client.addListener('join', (channel, nick, message) => {
 //     box.pushLine(`Joined: ${channel}`);
-//     box.setScrollPerc(100); 
+//     box.setScrollPerc(100);
 //     screen.render();
 // });
 

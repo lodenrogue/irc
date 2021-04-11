@@ -32,12 +32,14 @@ describe('IRC', function() {
         client.emit('motd', testMotd);
 
         expect(eventEmitter.emit).toHaveBeenCalledWith(
-            'motd', 
-            jasmine.any(String), 
+            'motd',
+            jasmine.any(String),
             jasmine.any(String));
     });
 
     function createMockRenderer() {
-        return { start: function() {} };
+        return {
+            start: function() {}
+        };
     }
 });

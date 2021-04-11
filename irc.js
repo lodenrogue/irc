@@ -9,7 +9,7 @@ const USERNAME = 'test4frh6';
 
 class IRC {
 
-    constructor(client = this.createClient(), 
+    constructor(client = this.createClient(),
                 eventEmitter = new EventEmitter(),
                 renderer = new UIRenderer()) {
 
