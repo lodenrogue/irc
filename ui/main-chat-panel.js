@@ -16,9 +16,9 @@ class MainChatPanel {
 
     createBox() {
         return blessed.box({
-            top: 'center',
+            top: '0%',
             left: 'center',
-            height: '100%',
+            height: '90%',
             width: '100%',
             tags: true,
             border: {
