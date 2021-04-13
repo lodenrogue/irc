@@ -1,23 +1,22 @@
 const blessed = require('blessed');
 
-class ChatInputPanel {
+class ChannelPanel {
 
     constructor(screen, eventEmitter) {
-        this.input = this.createInput();
+        this.box = this.createBox();
         this.eventEmitter = eventEmitter;
         this.screen = screen;
 
-        this.screen.append(this.input);
-        this.input.focus();
+        this.screen.append(this.box);
         this.screen.render();
     }
 
-    createInput() {
-        return blessed.textbox({
-            top: '93%',
-            left: '15%',
-            height: 3,
-            width: '70%',
+    createBox() {
+        return blessed.box({
+            top: '0%',
+            left: '0%',
+            height: '100%',
+            width: '15%',
             tags: true,
             border: {
                 type: 'line'
@@ -29,11 +28,11 @@ class ChatInputPanel {
                     fg: '#f0f0f0'
                 }
             },
-            mouse: true,
-            inputOnFocus: true
+            scrollable: true,
+            alwaysScroll: true,
+            mouse: true
         });
     }
-
 }
 
-module.exports = ChatInputPanel;
+module.exports = ChannelPanel;

@@ -1,5 +1,7 @@
 const blessed = require('blessed');
+const ChannelPanel = require('./channel-panel');
 const MainChatPanel = require('./main-chat-panel');
+const UsersPanel = require('./users-panel');
 const ChatInputPanel = require('./chat-input-panel');
 
 class UIRenderer {
@@ -9,7 +11,9 @@ class UIRenderer {
     }
 
     start(eventEmitter) {
+        new ChannelPanel(this.screen, eventEmitter);
         new MainChatPanel(this.screen, eventEmitter);
+        new UsersPanel(this.screen, eventEmitter);
         new ChatInputPanel(this.screen, eventEmitter);
     }
 
