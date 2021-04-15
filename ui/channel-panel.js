@@ -9,6 +9,25 @@ class ChannelPanel {
 
         this.screen.append(this.box);
         this.screen.render();
+
+        this.registerConnection()
+        this.registerJoin();
+    }
+
+    registerConnection() {
+        this.eventEmitter.addListener('connecting', (timestamp, host, nick) => {
+            this.nick = nick;
+        })
+    }
+
+    registerJoin() {
+        this.eventEmitter.addListener('join', (channel, nick) => {
+            if(this.nick == nick) {
+                this.box.pushLine(`  ${channel}`);
+                this.box.setScrollPerc(100);
+                this.screen.render();
+            }
+        });
     }
 
     createBox() {

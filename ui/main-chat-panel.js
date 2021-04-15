@@ -38,7 +38,7 @@ class MainChatPanel {
     }
 
     registerConnection() {
-        this.eventEmitter.addListener('connecting', (timestamp, host) => {
+        this.eventEmitter.addListener('connecting', (timestamp, host, nick) => {
             this.displayConnecting(timestamp, host);
         });
 

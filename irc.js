@@ -2,8 +2,7 @@ const irc = require('irc-upd');
 const EventEmitter = require('events').EventEmitter;
 const Timestamp = require('./util/timestamp');
 
-const MOTDHandler = require('./handler/motd-handler');
-const ConnectionHandler = require('./handler/connection-handler');
+const EventHandler = require('./handler/event-handler');
 const UIRenderer = require('./ui/ui-renderer');
 
 const HOST = 'irc.freenode.net';
@@ -16,15 +15,20 @@ class IRC {
 
         this.client = client;
         this.eventEmitter = eventEmitter;
+        this.eventHandler = new EventHandler(this.client, this.eventEmitter);
         this.renderer = renderer;
     }
 
     start() {
-        new ConnectionHandler(this.client, this.eventEmitter);
-        new MOTDHandler(this.client, this.eventEmitter);
+        this.eventHandler.start();
         this.renderer.start(this.eventEmitter);
 
-        this.eventEmitter.emit('connecting', new Timestamp().toString(), HOST);
+        this.eventEmitter.emit(
+            'connecting',
+            new Timestamp().toString(),
+            HOST,
+            USERNAME);
+
         this.client.connect();
     }
 
@@ -32,7 +36,7 @@ class IRC {
         return new irc.Client(HOST, USERNAME, {
             userName: USERNAME,
             realName: USERNAME,
-            channels: ['#test123hngh'],
+            channels: ['#test123hngh', '#test123hngi'],
             autoConnect: false
         });
     }

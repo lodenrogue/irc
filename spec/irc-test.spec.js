@@ -43,12 +43,32 @@ describe('IRC', function() {
         });
 
         spyOn(eventEmitter, 'emit');
-
         app.start();
         client.emit('motd', testMotd);
 
         expect(eventEmitter.emit).toHaveBeenCalledWith(
             'motd',
+            jasmine.any(String),
+            jasmine.any(String));
+    });
+
+    it('should publish channel join message', () => {
+        const testChannel = "#TEST_CHANNEL";
+        const testNick = "TEST_NICK";
+
+        eventEmitter.addListener('join', (channel, nick) => {
+            expect(channel).toBe(testChannel);
+            expect(nick).toBe(testNick);
+        });
+
+        spyOn(eventEmitter, 'emit');
+
+        app.start();
+        eventEmitter.emit('join-request', testChannel);
+        client.emit('join', testChannel, testNick, {});
+
+        expect(eventEmitter.emit).toHaveBeenCalledWith(
+            'join',
             jasmine.any(String),
             jasmine.any(String));
     });
