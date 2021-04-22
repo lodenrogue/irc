@@ -1,2 +1,6 @@
 /dist
 /node_modules
+
+.scannerwork
+sonar-project.properties
+sonar.sh

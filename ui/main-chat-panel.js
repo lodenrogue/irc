@@ -57,7 +57,7 @@ class MainChatPanel {
         let color = this.getSystemInfoColor();
         let prefix = `${color}*{/}`;
         let message = `Looking up ${color}${host}{/}`;
-        this.displayLine(timestamp, prefix, message);
+        this.displayLine(timestamp, message, prefix);
     }
 
     displayConnected(timestamp, host) {
@@ -66,7 +66,7 @@ class MainChatPanel {
         let prefix = `${color}${sysInfoPrefix}{/}`;
         let message = `Connected to ${color}${host}{/}`;
 
-        this.displayLine(timestamp, prefix, message);
+        this.displayLine(timestamp, message, prefix);
     }
 
     displayMotd(timestamp, motd) {
@@ -76,10 +76,10 @@ class MainChatPanel {
 
         motd.split('\n')
             .map(line => `${color}${line}{/}`)
-            .forEach(line => this.displayLine(timestamp, prefix, line));
+            .forEach(line => this.displayLine(timestamp, line, prefix));
     }
 
-    displayLine(timestamp, prefix = ' ', message) {
+    displayLine(timestamp, message, prefix = ' ') {
         let line = `[${timestamp}]\t\t${prefix}|${message}`;
         this.box.pushLine(line);
         this.box.setScrollPerc(100);

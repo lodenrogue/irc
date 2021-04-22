@@ -74,14 +74,18 @@ describe('IRC', function() {
     });
 
     function createClient() {
-        let client = new EventEmitter();
-        client.connect = function() {};
-        return client;
+        let mockClient = new EventEmitter();
+        mockClient.connect = () => {
+            // No behavior
+        };
+        return mockClient;
     }
 
     function createMockRenderer() {
         return {
-            start: function() {}
+            start: () => {
+                // No behavior
+            }
         };
     }
 });
